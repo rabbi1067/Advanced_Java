@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Student Manager</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .container {
+            display: flex;
+            gap: 24px;
+            max-width: 950px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px;
+        }
+        .form-side {
+            flex: 0 0 320px;
+        }
+        .list-side {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+            color: #34495e;
+            font-size: 14px;
+        }
+        input {
+            width: 100%;
+            padding: 8px 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background: #2980b9;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        button:hover { background: #2471a3; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        th {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        tr:hover { background: #f9fbfd; }
+        .empty {
+            color: #888;
+            font-style: italic;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Student Manager (MongoDB)</h1>
+
+<div class="container">
+
+    <!-- LEFT: input form -->
+    <div class="card form-side">
+        <h2>Add Student</h2>
+        <form th:action="@{/save}" th:object="${studentDto}" method="post">
+            <label>Name</label>
+            <input type="text" th:field="*{name}" required/>
+
+            <label>Age</label>
+            <input type="number" th:field="*{age}" required/>
+
+            <label>CGPA</label>
+            <input type="number" step="0.01" th:field="*{cgpa}" required/>
+
+            <button type="submit">Save Student</button>
+        </form>
+    </div>
+
+    <!-- RIGHT: list of students -->
+    <div class="card list-side">
+        <h2>Student List</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>CGPA</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${students}">
+                <td th:text="${s.name}"></td>
+                <td th:text="${s.age}"></td>
+                <td th:text="${s.cgpa}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="empty" th:if="${students.isEmpty()}">No students yet. Add one from the left.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
