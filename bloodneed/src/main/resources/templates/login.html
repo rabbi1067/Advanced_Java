@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Need - Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/i18n.js" defer></script>
+    <script src="/js/main.js" defer></script>
+    <script src="/js/bot.js" defer></script>
+</head>
+<body>
+    <div class="emergency-banner"><div class="container"><span class="pulse-dot"></span><span>🚨 Emergency Blood Alert</span></div></div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><div class="logo-icon">🩸</div><span>Blood Need</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/login" class="active">Login</a></li>
+            </ul>
+            <div class="nav-actions"></div>
+        </div>
+    </nav>
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo">🩸</div>
+                    <h1 data-i18n="welcomeBack">Welcome Back</h1>
+                    <p data-i18n="loginSubtitle">Sign in to your account</p>
+                </div>
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="email">Email Address</label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="password">Password</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter password">
+                    </div>
+                    <button class="btn btn-primary w-full" id="loginBtn" data-i18n="signIn">Sign In</button>
+                </div>
+                <div class="login-divider"><span>or</span></div>
+                <div style="text-align:center;">
+                    <p data-i18n="dontHaveAccount">Don't have an account?</p>
+                    <a href="/login" class="font-600" data-i18n="signUp">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof initLanguage === 'function') initLanguage();
+            if (typeof BloodBot !== 'undefined') new BloodBot();
+            if (typeof ThemeManager !== 'undefined') new ThemeManager();
+            if (typeof LanguageManager !== 'undefined') new LanguageManager();
+
+            document.getElementById('loginBtn')?.addEventListener('click', async function() {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                if (!email || !password) { alert('Please fill in all fields'); return; }
+                const auth = new AuthManager();
+                const result = await auth.login(email, password);
+                if (result.success) { window.location.href = '/dashboard'; }
+                else { alert(result.error || 'Login failed'); }
+            });
+        });
+    </script>
+</body>
+</html>

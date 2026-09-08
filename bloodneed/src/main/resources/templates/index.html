@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Need</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/i18n.js" defer></script>
+    <script src="/js/main.js" defer></script>
+    <script src="/js/bot.js" defer></script>
+</head>
+<body>
+    <div class="emergency-banner"><div class="container"><span class="pulse-dot"></span><span>🚨 Emergency Blood Alert</span></div></div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><div class="logo-icon">🩸</div><span>Blood Need</span></a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+            <div class="nav-actions"></div>
+        </div>
+    </nav>
+
+    <section class="hero" style="padding-bottom:0;">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge"><span class="pulse-dot"></span><span>🩸 Saving Lives Together</span></div>
+                <h1 data-i18n="heroTitle">Save Lives Through Blood Donation</h1>
+                <p data-i18n="heroSubtitle">Connect donors with patients in urgent need. Every drop counts.</p>
+                <div class="hero-buttons">
+                    <a href="/dashboard" class="btn btn-primary btn-lg" data-i18n="findDonor">Find a Donor</a>
+                    <a href="/login" class="btn btn-outline btn-lg" data-i18n="becomeDonor">Become a Donor</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item"><div class="stat-number">2,847</div><div class="stat-label" data-i18n="livesSaved">Lives Saved</div></div>
+                    <div class="stat-item"><div class="stat-number">1,203</div><div class="stat-label" data-i18n="activeDonors">Active Donors</div></div>
+                    <div class="stat-item"><div class="stat-number">342</div><div class="stat-label" data-i18n="bloodRequests">Blood Requests</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top:20px;">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom:32px;">Your Blood Network</h2>
+            <div class="grid-2" style="gap:32px;">
+                <div>
+                    <div class="dashboard-welcome" style="margin-bottom:24px;">
+                        <div><h2 data-i18n="dashboardWelcome">Dashboard</h2><p class="text-secondary" data-i18n="dashboardSubtitle">Your blood network overview</p></div>
+                        <button class="btn btn-primary btn-sm" onclick="showEmergency()">🚨 Alert</button>
+                    </div>
+                    <div class="stats-grid" id="homeStats">
+                        <div class="stat-card"><div class="stat-icon red">🩸</div><div class="stat-info"><h4 id="totalReq">-</h4><p data-i18n="totalRequests">Total Requests</p></div></div>
+                        <div class="stat-card"><div class="stat-icon blue">👥</div><div class="stat-info"><h4 id="totalDon">-</h4><p data-i18n="activeDonors">Active Donors</p></div></div>
+                        <div class="stat-card"><div class="stat-icon yellow">⚠️</div><div class="stat-info"><h4 id="urgentNeed">-</h4><p>Urgent Needs</p></div></div>
+                        <div class="stat-card"><div class="stat-icon green">❤️</div><div class="stat-info"><h4 id="todayDon">-</h4><p>Donations Today</p></div></div>
+                    </div>
+                    <div class="chart-area" style="margin-bottom:24px;">
+                        <h3>📈 Monthly Donations</h3>
+                        <div class="chart-bars">
+                            <div class="chart-bar-wrapper"><div class="chart-bar-value">12</div><div class="chart-bar" style="height:30%"></div><div class="chart-bar-label">Jan</div></div>
+                            <div class="chart-bar-wrapper"><div class="chart-bar-value">19</div><div class="chart-bar" style="height:48%"></div><div class="chart-bar-label">Feb</div></div>
+                            <div class="chart-bar-wrapper"><div class="chart-bar-value">8</div><div class="chart-bar" style="height:20%"></div><div class="chart-bar-label">Mar</div></div>
+                            <div class="chart-bar-wrapper"><div class="chart-bar-value">25</div><div class="chart-bar" style="height:63%"></div><div class="chart-bar-label">Apr</div></div>
+                            <div class="chart-bar-wrapper"><div class="chart-bar-value">15</div><div class="chart-bar" style="height:38%"></div><div class="chart-bar-label">May</div></div>
+                            <div class="chart-bar-wrapper"><div class="chart-bar-value">30</div><div class="chart-bar" style="height:75%"></div><div class="chart-bar-label">Jun</div></div>
+                            <div class="chart-bar-wrapper"><div class="chart-bar-value">35</div><div class="chart-bar" style="height:88%"></div><div class="chart-bar-label">Sep</div></div>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <div class="table-header"><h3>📋 Recent Requests</h3><button class="btn btn-sm btn-primary" data-i18n="viewRequests">View All</button></div>
+                        <div id="homeRequests"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar" id="homeProfileAvatar">JD</div>
+                            <div class="profile-info">
+                                <h1 id="homeProfileName">Guest</h1>
+                                <p class="text-secondary" id="homeProfileEmail">Login to view profile</p>
+                                <span class="profile-role-badge user" id="homeProfileRole">USER</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm" style="margin-left:auto;" onclick="window.location.href='/login'">Login</button>
+                        </div>
+                        <div class="profile-stats-row">
+                            <div class="profile-stat-mini"><div class="number">-</div><div class="label">Donations</div></div>
+                            <div class="profile-stat-mini"><div class="number">-</div><div class="label">Requests Helped</div></div>
+                            <div class="profile-stat-mini"><div class="number">-</div><div class="label">Blood Group</div></div>
+                        </div>
+                    </div>
+                    <div class="quick-actions" style="margin-bottom:24px;">
+                        <div class="quick-action-card" onclick="window.location.href='/dashboard'"><div class="qa-icon">📋</div><h4 data-i18n="viewRequests">View Requests</h4><p>Check all blood requests</p></div>
+                        <div class="quick-action-card"><div class="qa-icon">👥</div><h4 data-i18n="manageDonors">Manage Donors</h4><p>View donor list</p></div>
+                        <div class="quick-action-card"><div class="qa-icon">🔔</div><h4 data-i18n="sendAlert">Send Alert</h4><p>Emergency broadcast</p></div>
+                        <div class="quick-action-card" onclick="window.location.href='/profile'"><div class="qa-icon">👤</div><h4 data-i18n="viewProfile">Profile</h4><p>Your settings</p></div>
+                    </div>
+                    <div class="card">
+                        <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">📡 Recent Activity</h3>
+                        <div id="homeActivity"></div>
+                    </div>
+                    <div style="background:linear-gradient(135deg,#7f1d1d,#dc2626);border-radius:16px;padding:24px;margin-top:24px;color:white;">
+                        <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;">🚨 Emergency Alert</h3>
+                        <p style="opacity:0.9;font-size:14px;margin-bottom:16px;">There are urgent blood requirements right now in your area.</p>
+                        <button class="btn btn-primary" style="background:white;color:#dc2626;font-weight:700;" onclick="showEmergency()">Donate Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <h2 class="section-title" data-i18n="whyUs">Why Choose Blood Need</h2>
+            <p class="section-subtitle">Your trusted platform for blood donation and emergencies</p>
+            <div class="grid-3">
+                <div class="card feature-card"><div class="feature-icon">⚡</div><h3 data-i18n="feature1Title">Instant Matching</h3><p data-i18n="feature1Desc">Real-time matching with MongoDB database.</p></div>
+                <div class="card feature-card"><div class="feature-icon">🌐</div><h3 data-i18n="feature2Title">Multi-Device</h3><p data-i18n="feature2Desc">Seamlessly sync across all your devices.</p></div>
+                <div class="card feature-card"><div class="feature-icon">🤖</div><h3 data-i18n="feature3Title">Smart Bot</h3><p data-i18n="feature3Desc">AI-powered chatbot helps you find donors.</p></div>
+                <div class="card feature-card"><div class="feature-icon">🌙</div><h3>Day & Night Mode</h3><p>Switch between light and dark themes.</p></div>
+                <div class="card feature-card"><div class="feature-icon">🌍</div><h3>English & Bangla</h3><p>Full bilingual support.</p></div>
+                <div class="card feature-card"><div class="feature-icon">🔔</div><h3>Popup Notifications</h3><p>Smart popup system.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px;">
+        <div class="container">
+            <div class="grid-4">
+                <div><h3 style="font-size:20px;font-weight:800;margin-bottom:12px;">🩸 Blood Need</h3><p style="color:var(--text-secondary);font-size:14px;line-height:1.7;" data-i18n="footerDesc">Connecting blood donors with patients.</p></div>
+                <div><h4 style="font-weight:700;margin-bottom:12px;">Quick Links</h4><div style="display:flex;flex-direction:column;gap:8px;"><a href="/">Home</a><a href="/dashboard">Dashboard</a><a href="/profile">Profile</a></div></div>
+                <div><h4 style="font-weight:700;margin-bottom:12px;">Contact</h4><p style="color:var(--text-secondary);font-size:14px;">📧 contact@bloodneed.com</p><p>📞 +880 1234 5678</p></div>
+                <div><h4 style="font-weight:700;margin-bottom:12px;">Emergency</h4><p>🚨 Helpline: 999</p><p>📞 Blood Bank: 1044</p></div>
+            </div>
+            <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);color:var(--text-muted);font-size:14px;" data-i18n="footerRight">© 2025 Blood Need. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof initLanguage === 'function') initLanguage();
+            if (typeof BloodBot !== 'undefined') new BloodBot();
+            if (typeof ThemeManager !== 'undefined') new ThemeManager();
+            if (typeof LanguageManager !== 'undefined') new LanguageManager();
+
+            try {
+                const dm = new DashboardManager();
+                const stats = await dm.loadStats();
+                if (stats.totalRequests !== undefined) {
+                    document.getElementById('totalReq').textContent = stats.totalRequests;
+                    document.getElementById('totalDon').textContent = stats.totalDonors;
+                    document.getElementById('urgentNeed').textContent = stats.urgentNeeds;
+                    document.getElementById('todayDon').textContent = stats.donationsToday;
+                }
+                const reqs = await dm.loadRequests();
+                const reqContainer = document.getElementById('homeRequests');
+                if (reqContainer && reqs.length > 0) {
+                    reqContainer.innerHTML = reqs.slice(0,3).map(r => `<div class="request-card"><div class="request-info"><h4>${r.name}</h4><p>${r.bloodGroup} • ${r.location} • ${r.urgency}</p></div><span class="request-urgency ${r.urgency}">${r.urgency.toUpperCase()}</span></div>`).join('');
+                }
+                const act = await dm.loadActivity();
+                const actContainer = document.getElementById('homeActivity');
+                if (actContainer && act.length > 0) {
+                    actContainer.innerHTML = act.map(a => `<div class="activity-item"><div class="activity-dot ${a.dotColor}"></div><div><div class="activity-text"><strong>${a.type}</strong> - ${a.text}</div><div class="activity-time">${a.time}</div></div></div>`).join('');
+                }
+            } catch(e) { console.error('Dashboard load error:', e); }
+
+            try {
+                const user = JSON.parse(localStorage.getItem('bloodneed_user') || 'null');
+                if (user) {
+                    const avatar = document.getElementById('homeProfileAvatar');
+                    const name = document.getElementById('homeProfileName');
+                    const email = document.getElementById('homeProfileEmail');
+                    const role = document.getElementById('homeProfileRole');
+                    if (avatar) avatar.textContent = user.name.charAt(0).toUpperCase();
+                    if (name) name.textContent = user.name;
+                    if (email) email.textContent = user.email;
+                    if (role) { role.textContent = (user.role||'user').toUpperCase(); role.className = 'profile-role-badge '+(user.role||'user'); }
+                }
+            } catch(e) {}
+        });
+
+        function showEmergency() {
+            const popup = document.createElement('div');
+            popup.className = 'emergency-popup show';
+            popup.innerHTML = '<div class="emergency-card"><div class="emergency-icon">🚨</div><h2>Urgent: Blood Emergency!</h2><p>There is an urgent blood requirement in your area.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;"><button class="btn btn-primary" onclick="this.closest(\'.emergency-popup\').remove()">Donate Now</button><button class="btn btn-secondary" onclick="this.closest(\'.emergency-popup\').remove()">Remind Later</button></div></div>';
+            document.body.appendChild(popup);
+        }
+    </script>
+</body>
+</html>

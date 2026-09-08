@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Need - Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <script src="/js/i18n.js" defer></script>
+    <script src="/js/main.js" defer></script>
+    <script src="/js/bot.js" defer></script>
+</head>
+<body>
+    <div class="emergency-banner"><div class="container"><span class="pulse-dot"></span><span>🚨 Emergency Blood Alert</span></div></div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand"><div class="logo-icon">🩸</div><span>Blood Need</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard" class="active">Dashboard</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/login" onclick="if(confirm('Logout?')){localStorage.removeItem('bloodneed_user');location.href='/login'}">Logout</a></li>
+            </ul>
+            <div class="nav-actions"></div>
+        </div>
+    </nav>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo"><div class="logo-icon">🩸</div><span>Blood Need</span></div>
+            <ul class="sidebar-nav">
+                <li><a href="/dashboard" class="active"><span class="nav-icon">📊</span> Dashboard</a></li>
+                <li><a href="/dashboard"><span class="nav-icon">📋</span> Requests</a></li>
+                <li><a href="/dashboard"><span class="nav-icon">👥</span> Donors</a></li>
+                <li><a href="/dashboard"><span class="nav-icon">📝</span> New Request</a></li>
+                <li><a href="/profile"><span class="nav-icon">👤</span> Profile</a></li>
+            </ul>
+        </aside>
+        <main class="main-content dashboard-page">
+            <div class="dashboard-header">
+                <div><h1 data-i18n="dashboardWelcome">Dashboard</h1><p class="text-secondary" data-i18n="dashboardSubtitle">Your blood network overview</p></div>
+                <button class="btn btn-primary btn-sm" onclick="showEmergency()">🚨 Alert</button>
+            </div>
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="quick-actions">
+                <div class="quick-action-card"><div class="qa-icon">📋</div><h4 data-i18n="viewRequests">View Requests</h4><p>Check all blood requests</p></div>
+                <div class="quick-action-card"><div class="qa-icon">👥</div><h4 data-i18n="manageDonors">Manage Donors</h4><p>View donor list</p></div>
+                <div class="quick-action-card"><div class="qa-icon">🔔</div><h4 data-i18n="sendAlert">Send Alert</h4><p>Emergency broadcast</p></div>
+                <div class="quick-action-card" onclick="window.location.href='/profile'"><div class="qa-icon">👤</div><h4 data-i18n="viewProfile">Profile</h4><p>Your settings</p></div>
+            </div>
+            <div class="chart-area"><h3>📈 Monthly Donations</h3><div class="chart-bars">
+                <div class="chart-bar-wrapper"><div class="chart-bar-value">12</div><div class="chart-bar" style="height:30%"></div><div class="chart-bar-label">Jan</div></div>
+                <div class="chart-bar-wrapper"><div class="chart-bar-value">19</div><div class="chart-bar" style="height:48%"></div><div class="chart-bar-label">Feb</div></div>
+                <div class="chart-bar-wrapper"><div class="chart-bar-value">8</div><div class="chart-bar" style="height:20%"></div><div class="chart-bar-label">Mar</div></div>
+                <div class="chart-bar-wrapper"><div class="chart-bar-value">25</div><div class="chart-bar" style="height:63%"></div><div class="chart-bar-label">Apr</div></div>
+                <div class="chart-bar-wrapper"><div class="chart-bar-value">35</div><div class="chart-bar" style="height:88%"></div><div class="chart-bar-label">Sep</div></div>
+            </div></div>
+            <div class="grid-2">
+                <div>
+                    <div class="table-container">
+                        <div class="table-header"><h3>📋 Recent Requests</h3><button class="btn btn-sm btn-primary" data-i18n="viewRequests">View All</button></div>
+                        <div id="requestsList"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card"><h3>📡 Recent Activity</h3><div id="activityFeed"></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof initLanguage === 'function') initLanguage();
+            if (typeof BloodBot !== 'undefined') new BloodBot();
+            if (typeof ThemeManager !== 'undefined') new ThemeManager();
+            if (typeof LanguageManager !== 'undefined') new LanguageManager();
+            try {
+                const dm = new DashboardManager();
+                await dm.loadStats().then(s => { if (document.getElementById('statsGrid')) document.getElementById('statsGrid').innerHTML = `<div class="stat-card"><div class="stat-icon red">🩸</div><div class="stat-info"><h4>${s.totalRequests}</h4><p>Total Requests</p></div></div><div class="stat-card"><div class="stat-icon blue">👥</div><div class="stat-info"><h4>${s.totalDonors}</h4><p>Active Donors</p></div></div><div class="stat-card"><div class="stat-icon yellow">⚠️</div><div class="stat-info"><h4>${s.urgentNeeds}</h4><p>Urgent Needs</p></div></div><div class="stat-card"><div class="stat-icon green">❤️</div><div class="stat-info"><h4>${s.donationsToday}</h4><p>Donations Today</p></div></div>`; });
+                await dm.loadRequests().then(r => { if (document.getElementById('requestsList')) document.getElementById('requestsList').innerHTML = r.slice(0,3).map(x => `<div class="request-card"><div class="request-info"><h4>${x.name}</h4><p>${x.bloodGroup} • ${x.location} • ${x.urgency}</p></div><span class="request-urgency ${x.urgency}">${x.urgency.toUpperCase()}</span></div>`).join(''); });
+                await dm.loadActivity().then(a => { if (document.getElementById('activityFeed')) document.getElementById('activityFeed').innerHTML = a.map(x => `<div class="activity-item"><div class="activity-dot ${x.dotColor}"></div><div><div class="activity-text"><strong>${x.type}</strong> - ${x.text}</div><div class="activity-time">${x.time}</div></div></div>`).join(''); });
+            } catch(e) { console.error('Dashboard load error:', e); }
+        });
+        function showEmergency() { const popup = document.createElement('div'); popup.className = 'emergency-popup show'; popup.innerHTML = '<div class="emergency-card"><div class="emergency-icon">🚨</div><h2>Urgent: Blood Emergency!</h2><p>There is an urgent blood requirement in your area.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;"><button class="btn btn-primary" onclick="this.closest(\'.emergency-popup\').remove()">Donate Now</button><button class="btn btn-secondary" onclick="this.closest(\'.emergency-popup\').remove()">Remind Later</button></div></div>'; document.body.appendChild(popup); }
+    </script>
+</body>
+</html>
