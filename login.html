@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Need - Login</title>
+    <link rel="stylesheet" href="resources/static/css/style.css">
+    <script src="resources/static/js/i18n.js" defer></script>
+    <script src="resources/static/js/main.js" defer></script>
+    <script src="resources/static/js/bot.js" defer></script>
+</head>
+<body>
+    <!-- Emergency Banner -->
+    <div class="emergency-banner">
+        <div class="container">
+            <span class="pulse-dot"></span>
+            <span>🚨 Emergency Blood Alert</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="logo-icon">🩸</div>
+                <span>Blood Need</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            </ul>
+            <div class="nav-actions">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Page -->
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo">🩸</div>
+                    <h1 data-i18n="welcomeBack">Welcome Back</h1>
+                    <p data-i18n="loginSubtitle">Sign in to your account to continue</p>
+                </div>
+
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="email">Email Address</label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email" data-i18n-placeholder="email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="password">Password</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                    <div class="flex-between" style="margin-bottom:20px;">
+                        <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
+                            <input type="checkbox"> <span data-i18n="rememberMe">Remember Me</span>
+                        </label>
+                        <a href="#" style="color:var(--primary);font-size:14px;font-weight:600;text-decoration:none;">Forgot Password?</a>
+                    </div>
+                    <button class="btn btn-primary w-full" id="loginBtn" data-i18n="signIn">Sign In</button>
+                </div>
+
+                <div class="login-divider"><span>or</span></div>
+
+                <div style="text-align:center;">
+                    <p data-i18n="dontHaveAccount">Don't have an account?</p>
+                    <a href="login.html" class="font-600" data-i18n="signUp">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof BloodBot !== 'undefined') new BloodBot();
+            if (typeof ThemeManager !== 'undefined') new ThemeManager();
+            if (typeof LanguageManager !== 'undefined') new LanguageManager();
+
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+                    if (!email || !password) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+                    let users = JSON.parse(localStorage.getItem('bloodneed_users') || '[]');
+                    if (!users.find(u => u.email === email)) {
+                        users.push({ name: email.split('@')[0], email, password, bloodGroup: 'O+', role: 'user', avatar: email.charAt(0).toUpperCase(), joinedAt: new Date().toISOString() });
+                        localStorage.setItem('bloodneed_users', JSON.stringify(users));
+                    }
+                    const auth = new AuthManager();
+                    const result = auth.login(email, password);
+                    if (result.success) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        alert(result.error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

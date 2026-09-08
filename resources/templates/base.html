@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Need - Save Lives</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link rel="stylesheet" href="../static/css/profile.css">
+    <script src="../static/js/i18n.js" defer></script>
+    <script src="../static/js/main.js" defer></script>
+    <script src="../static/js/bot.js" defer></script>
+    <script src="../static/js/auth.js" defer></script>
+    <script src="../static/js/dashboard.js" defer></script>
+</head>
+<body>
+    <!-- Emergency Banner -->
+    <div class="emergency-banner">
+        <div class="container">
+            <span class="pulse-dot"></span>
+            <span data-i18n="emergencyTitle">🚨 Emergency Blood Alert</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="logo-icon">🩸</div>
+                <span data-i18n="brand">Blood Need</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active" data-i18n="home">Home</a></li>
+                <li><a href="dashboard.html" data-i18n="dashboard">Dashboard</a></li>
+                <li><a href="profile.html" data-i18n="profile">Profile</a></li>
+                <li><a href="login.html" data-i18n="login">Login</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- Theme toggle and lang toggle injected by JS -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main id="page-content">
+        
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px;">
+        <div class="container">
+            <div class="grid-4">
+                <div>
+                    <h3 style="font-size:20px;font-weight:800;margin-bottom:12px;">🩸 Blood Need</h3>
+                    <p style="color:var(--text-secondary);font-size:14px;line-height:1.7;" data-i18n="footerDesc">Connecting blood donors with patients in need. Every drop saves a life.</p>
+                </div>
+                <div>
+                    <h4 style="font-weight:700;margin-bottom:12px;">Quick Links</h4>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:14px;">Home</a>
+                        <a href="dashboard.html" style="color:var(--text-secondary);text-decoration:none;font-size:14px;">Dashboard</a>
+                        <a href="profile.html" style="color:var(--text-secondary);text-decoration:none;font-size:14px;">Profile</a>
+                        <a href="login.html" style="color:var(--text-secondary);text-decoration:none;font-size:14px;">Login</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-weight:700;margin-bottom:12px;">Contact</h4>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <p style="color:var(--text-secondary);font-size:14px;">📧 contact@bloodneed.com</p>
+                        <p style="color:var(--text-secondary);font-size:14px;">📞 +880 1234 5678</p>
+                        <p style="color:var(--text-secondary);font-size:14px;">📍 Dhaka, Bangladesh</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-weight:700;margin-bottom:12px;">Emergency</h4>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <p style="color:var(--text-secondary);font-size:14px;">🚨 Emergency Helpline: 999</p>
+                        <p style="color:var(--text-secondary);font-size:14px;">📞 Blood Bank: 1044</p>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);color:var(--text-muted);font-size:14px;">
+                <span data-i18n="footerRight">© 2025 Blood Need. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

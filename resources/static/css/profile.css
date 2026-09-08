@@ -1,0 +1,83 @@
+/* Profile-specific styles */
+.profile-page {
+    padding: 40px 32px;
+}
+
+.profile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
+.profile-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.profile-form-grid .form-group {
+    margin-bottom: 0;
+}
+
+.profile-role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.profile-role-badge.admin {
+    background: linear-gradient(135deg, #dc2626, #f59e0b);
+    color: white;
+}
+
+.profile-role-badge.user {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+[data-theme="dark"] .profile-role-badge.user { background: #1e3a5f; color: #60a5fa; }
+
+.profile-stats-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.profile-stat-mini {
+    text-align: center;
+    padding: 16px 24px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    min-width: 120px;
+}
+
+.profile-stat-mini .number {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.profile-stat-mini .label {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Responsive profile */
+@media (max-width: 768px) {
+    .profile-form-grid { grid-template-columns: 1fr; }
+    .profile-stats-row { flex-direction: column; }
+}

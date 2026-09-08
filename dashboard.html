@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Need - Dashboard</title>
+    <link rel="stylesheet" href="resources/static/css/style.css">
+    <link rel="stylesheet" href="resources/static/css/dashboard.css">
+    <link rel="stylesheet" href="resources/static/css/profile.css">
+    <script src="resources/static/js/i18n.js" defer></script>
+    <script src="resources/static/js/main.js" defer></script>
+    <script src="resources/static/js/bot.js" defer></script>
+    <script src="resources/static/js/dashboard.js" defer></script>
+</head>
+<body>
+    <!-- Emergency Banner -->
+    <div class="emergency-banner">
+        <div class="container">
+            <span class="pulse-dot"></span>
+            <span>🚨 Emergency Blood Alert</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="logo-icon">🩸</div>
+                <span>Blood Need</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- Theme toggle, lang toggle, notification bell injected by JS -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">🩸</div>
+                <span>Blood Need</span>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html" class="active"><span class="nav-icon">📊</span> Dashboard</a></li>
+                <li><a href="dashboard.html"><span class="nav-icon">📋</span> Requests</a></li>
+                <li><a href="dashboard.html"><span class="nav-icon">👥</span> Donors</a></li>
+                <li><a href="dashboard.html"><span class="nav-icon">📝</span> New Request</a></li>
+                <li><a href="profile.html"><span class="nav-icon">👤</span> Profile</a></li>
+                <li><a href="login.html" onclick="event.preventDefault(); if(confirm('Logout?')){localStorage.removeItem('bloodneed_user');location.href='login.html'}"><span class="nav-icon">🚪</span> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content dashboard-page">
+            <div class="dashboard-header">
+                <div>
+                    <h1 data-i18n="dashboardWelcome">Dashboard Welcome</h1>
+                    <p class="text-secondary" data-i18n="dashboardSubtitle">Here's what's happening with your blood network</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-primary btn-sm" onclick="showEmergency()">🚨 Alert</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid" id="statsGrid">
+                <!-- JS populated -->
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="quick-action-card" onclick="window.location.href='dashboard.html'">
+                    <div class="qa-icon">📋</div>
+                    <h4 data-i18n="viewRequests">View Requests</h4>
+                    <p>Check all blood requests</p>
+                </div>
+                <div class="quick-action-card">
+                    <div class="qa-icon">👥</div>
+                    <h4 data-i18n="manageDonors">Manage Donors</h4>
+                    <p>View donor list</p>
+                </div>
+                <div class="quick-action-card">
+                    <div class="qa-icon">🔔</div>
+                    <h4 data-i18n="sendAlert">Send Alert</h4>
+                    <p>Emergency broadcast</p>
+                </div>
+                <div class="quick-action-card" onclick="window.location.href='profile.html'">
+                    <div class="qa-icon">👤</div>
+                    <h4 data-i18n="viewProfile">Profile</h4>
+                    <p>Your settings</p>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="chart-area">
+                <h3>📈 Monthly Donations</h3>
+                <div class="chart-bars">
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">12</div><div class="chart-bar" style="height:30%"></div><div class="chart-bar-label">Jan</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">19</div><div class="chart-bar" style="height:48%"></div><div class="chart-bar-label">Feb</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">8</div><div class="chart-bar" style="height:20%"></div><div class="chart-bar-label">Mar</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">25</div><div class="chart-bar" style="height:63%"></div><div class="chart-bar-label">Apr</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">15</div><div class="chart-bar" style="height:38%"></div><div class="chart-bar-label">May</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">22</div><div class="chart-bar" style="height:55%"></div><div class="chart-bar-label">Jun</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">30</div><div class="chart-bar" style="height:75%"></div><div class="chart-bar-label">Jul</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">18</div><div class="chart-bar" style="height:45%"></div><div class="chart-bar-label">Aug</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">35</div><div class="chart-bar" style="height:88%"></div><div class="chart-bar-label">Sep</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">28</div><div class="chart-bar" style="height:70%"></div><div class="chart-bar-label">Oct</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">14</div><div class="chart-bar" style="height:35%"></div><div class="chart-bar-label">Nov</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar-value">26</div><div class="chart-bar" style="height:65%"></div><div class="chart-bar-label">Dec</div></div>
+                </div>
+            </div>
+
+            <!-- Requests & Activity -->
+            <div class="grid-2">
+                <div>
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>📋 Recent Requests</h3>
+                            <button class="btn btn-sm btn-primary" data-i18n="viewRequests">View All</button>
+                        </div>
+                        <div id="requestsList">
+                            <div class="request-card">
+                                <div class="request-info">
+                                    <h4>Rahim Ahmed</h4>
+                                    <p>A+ • Dhaka • Critical</p>
+                                </div>
+                                <span class="request-urgency critical">CRITICAL</span>
+                            </div>
+                            <div class="request-card">
+                                <div class="request-info">
+                                    <h4>Sara Khatun</h4>
+                                    <p>B+ • Chittagong • High</p>
+                                </div>
+                                <span class="request-urgency high">HIGH</span>
+                            </div>
+                            <div class="request-card">
+                                <div class="request-info">
+                                    <h4>Kamal Hossain</h4>
+                                    <p>O- • Sylhet • Normal</p>
+                                </div>
+                                <span class="request-urgency normal">NORMAL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <h3>📡 Recent Activity</h3>
+                        <div class="activity-item">
+                            <div class="activity-dot red"></div>
+                            <div>
+                                <div class="activity-text"><strong>Emergency</strong> - Critical A+ needed in Dhaka</div>
+                                <div class="activity-time">2 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot green"></div>
+                            <div>
+                                <div class="activity-text"><strong>Donation</strong> - 2 units donated by Rafiqul Islam</div>
+                                <div class="activity-time">15 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot blue"></div>
+                            <div>
+                                <div class="activity-text"><strong>Match</strong> - Donor found for Sara Khatun</div>
+                                <div class="activity-time">1 hour ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot yellow"></div>
+                            <div>
+                                <div class="activity-text"><strong>Request</strong> - New B+ request from Chittagong</div>
+                                <div class="activity-time">3 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof BloodBot !== 'undefined') new BloodBot();
+            if (typeof ThemeManager !== 'undefined') new ThemeManager();
+            if (typeof LanguageManager !== 'undefined') new LanguageManager();
+            if (typeof DashboardManager !== 'undefined') {
+                const dm = new DashboardManager();
+                dm.renderStats('statsGrid');
+                dm.renderRequests('requestsList');
+            }
+        });
+
+        function showEmergency() {
+            const popup = document.createElement('div');
+            popup.className = 'emergency-popup show';
+            popup.innerHTML = `
+                <div class="emergency-card">
+                    <div class="emergency-icon">🚨</div>
+                    <h2>Urgent: Blood Emergency!</h2>
+                    <p>There is an urgent blood requirement in your area.</p>
+                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                        <button class="btn btn-primary" onclick="this.closest('.emergency-popup').remove()">Donate Now</button>
+                        <button class="btn btn-secondary" onclick="this.closest('.emergency-popup').remove()">Remind Later</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
+    </script>
+</body>
+</html>
