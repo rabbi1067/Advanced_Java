@@ -1,3 +1,4 @@
+const API_BASE = 'http://localhost:8080/api';
 const safeGetItem = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
 
 class BloodBot {
@@ -8,7 +9,7 @@ class BloodBot {
     }
 
     async init() {
-        try { this.createWidget(); this.createEmergencyPopup(); } catch(e) { console.error('BloodBot init error:', e); }
+        try { this.createWidget(); } catch(e) { console.error('BloodBot init error:', e); }
     }
 
     createWidget() {
@@ -44,7 +45,7 @@ class BloodBot {
         this.renderMessages();
         input.value = '';
         try {
-            const res = await fetch('http://localhost:8080/api/bot/respond', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+            const res = await fetch(`${API_BASE}/bot/respond`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
             const data = await res.json();
             setTimeout(() => { this.messages.push({ sender: 'bot', text: data.response || 'Thank you!' }); this.renderMessages(); }, 800);
         } catch(e) {
@@ -55,14 +56,4 @@ class BloodBot {
     toggle() { this.isOpen = !this.isOpen; const p = document.getElementById('botPopup'); if (p) p.classList.toggle('show', this.isOpen); }
     close() { this.isOpen = false; const p = document.getElementById('botPopup'); if (p) p.classList.remove('show'); }
     renderMessages() { const body = document.getElementById('botBody'); if (!body) return; body.innerHTML = this.messages.map(msg => `<div class="bot-message ${msg.sender}">${msg.text}</div>`).join(''); body.scrollTop = body.scrollHeight; }
-    createEmergencyPopup() {
-        const popup = document.createElement('div');
-        popup.className = 'emergency-popup';
-        popup.id = 'emergencyPopup';
-        popup.innerHTML = '<div class="emergency-card"><div class="emergency-icon">🚨</div><h2>Urgent: Blood Emergency!</h2><p>There is an urgent blood requirement in your area.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;"><button class="btn btn-primary" onclick="closeEmergency()">Donate Now</button><button class="btn btn-secondary" onclick="closeEmergency()">Remind Later</button></div></div>';
-        document.body.appendChild(popup);
-        setTimeout(() => { if (Math.random() > 0.5) { const el = document.getElementById('emergencyPopup'); if (el) el.classList.add('show'); } }, 12000);
     }
-}
-
-function closeEmergency() { const el = document.getElementById('emergencyPopup'); if (el) el.classList.remove('show'); }

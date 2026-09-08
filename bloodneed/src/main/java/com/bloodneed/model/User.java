@@ -2,6 +2,7 @@ package com.bloodneed.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 
 @Document(collection = "users")
@@ -10,6 +11,7 @@ public class User {
     private String id;
     private String name;
     private String email;
+    @JsonIgnore
     private String password;
     private String bloodGroup;
     private String role;

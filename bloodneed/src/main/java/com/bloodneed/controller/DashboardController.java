@@ -29,10 +29,11 @@ public class DashboardController {
             long totalDonors = donorRepository.count();
             long totalRequests = bloodRequestRepository.count();
             long urgentNeeds = bloodRequestRepository.findByUrgency("critical").size();
+            long donationsToday = bloodRequestRepository.count();
             stats.put("totalDonors", totalDonors);
             stats.put("totalRequests", totalRequests);
             stats.put("urgentNeeds", urgentNeeds);
-            stats.put("donationsToday", (int)(Math.random() * 20 + 10));
+            stats.put("donationsToday", donationsToday);
             return ResponseEntity.ok(stats);
         } catch (Exception e) {
             Map<String, Object> error = new HashMap<>();
@@ -117,11 +118,13 @@ public class DashboardController {
     @GetMapping("/activity")
     public ResponseEntity<List<Map<String, Object>>> getActivity() {
         try {
+            List<Map<String, Object>> activity = new java.util.ArrayList<>();
             List<BloodRequest> requests = bloodRequestRepository.findAllByOrderByCreatedAtDesc();
             List<Donor> donors = donorRepository.findAllByOrderByCreatedAtDesc();
-            List<Map<String, Object>> activity = new java.util.ArrayList<>();
-
-            for (BloodRequest r : requests.stream().limit(5).toList()) {
+            int reqCount = 0;
+            int donCount = 0;
+            for (BloodRequest r : requests) {
+                if (reqCount >= 5) break;
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", r.getUrgency().equals("critical") ? "emergency" : "request");
                 item.put("text", r.getUrgency().equals("critical") ?
@@ -130,14 +133,17 @@ public class DashboardController {
                 item.put("time", "Just now");
                 item.put("dotColor", r.getUrgency().equals("critical") ? "red" : "blue");
                 activity.add(item);
+                reqCount++;
             }
-            for (Donor d : donors.stream().limit(3).toList()) {
+            for (Donor d : donors) {
+                if (donCount >= 3) break;
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", "donation");
-                item.put("text", "Donation - New donor registered: " + d.getName());
+                item.put("text", "Donation - New donor: " + d.getName());
                 item.put("time", "Just now");
                 item.put("dotColor", "green");
                 activity.add(item);
+                donCount++;
             }
             return ResponseEntity.ok(activity);
         } catch (Exception e) {
