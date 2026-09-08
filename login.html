@@ -76,6 +76,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initLanguage === 'function') initLanguage();
             if (typeof BloodBot !== 'undefined') new BloodBot();
             if (typeof ThemeManager !== 'undefined') new ThemeManager();
             if (typeof LanguageManager !== 'undefined') new LanguageManager();
@@ -85,22 +86,18 @@
                 loginBtn.addEventListener('click', function() {
                     const email = document.getElementById('loginEmail').value;
                     const password = document.getElementById('loginPassword').value;
-                    if (!email || !password) {
-                        alert('Please fill in all fields');
-                        return;
-                    }
-                    let users = JSON.parse(localStorage.getItem('bloodneed_users') || '[]');
-                    if (!users.find(u => u.email === email)) {
-                        users.push({ name: email.split('@')[0], email, password, bloodGroup: 'O+', role: 'user', avatar: email.charAt(0).toUpperCase(), joinedAt: new Date().toISOString() });
-                        localStorage.setItem('bloodneed_users', JSON.stringify(users));
-                    }
-                    const auth = new AuthManager();
-                    const result = auth.login(email, password);
-                    if (result.success) {
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        alert(result.error);
-                    }
+                    if (!email || !password) { alert('Please fill in all fields'); return; }
+                    try {
+                        let users = JSON.parse(localStorage.getItem('bloodneed_users') || '[]');
+                        if (!users.find(u => u.email === email)) {
+                            users.push({ name: email.split('@')[0], email, password, bloodGroup: 'O+', role: 'user', avatar: email.charAt(0).toUpperCase(), joinedAt: new Date().toISOString() });
+                            localStorage.setItem('bloodneed_users', JSON.stringify(users));
+                        }
+                        const auth = new AuthManager();
+                        const result = auth.login(email, password);
+                        if (result.success) { window.location.href = 'dashboard.html'; }
+                        else { alert(result.error); }
+                    } catch(e) { alert('Please enable localStorage'); }
                 });
             }
         });

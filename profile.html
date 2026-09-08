@@ -244,24 +244,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initLanguage === 'function') initLanguage();
             if (typeof BloodBot !== 'undefined') new BloodBot();
             if (typeof ThemeManager !== 'undefined') new ThemeManager();
             if (typeof LanguageManager !== 'undefined') new LanguageManager();
 
-            const user = JSON.parse(localStorage.getItem('bloodneed_user') || 'null');
-            if (user) {
-                const avatar = document.getElementById('profileAvatar');
-                const name = document.getElementById('profileName');
-                const email = document.getElementById('profileEmail');
-                const role = document.getElementById('profileRole');
-                if (avatar) avatar.textContent = user.name.charAt(0).toUpperCase();
-                if (name) name.textContent = user.name;
-                if (email) email.textContent = user.email;
-                if (role) {
-                    role.textContent = (user.role || 'user').toUpperCase();
-                    role.className = 'profile-role-badge ' + (user.role || 'user');
+            try {
+                const user = JSON.parse(localStorage.getItem('bloodneed_user') || 'null');
+                if (user) {
+                    const avatar = document.getElementById('profileAvatar');
+                    const name = document.getElementById('profileName');
+                    const email = document.getElementById('profileEmail');
+                    const role = document.getElementById('profileRole');
+                    if (avatar) avatar.textContent = user.name.charAt(0).toUpperCase();
+                    if (name) name.textContent = user.name;
+                    if (email) email.textContent = user.email;
+                    if (role) { role.textContent = (user.role||'user').toUpperCase(); role.className = 'profile-role-badge '+(user.role||'user'); }
                 }
-            }
+            } catch(e) {}
         });
     </script>
 </body>

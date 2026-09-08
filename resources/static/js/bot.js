@@ -1,3 +1,6 @@
+const safeGetItem = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
+const safeSetItem = (key, val) => { try { localStorage.setItem(key, val); } catch(e) {} };
+
 class BloodBot {
     constructor() {
         this.isOpen = false;
@@ -6,9 +9,13 @@ class BloodBot {
     }
 
     init() {
-        this.createWidget();
-        this.createEmergencyPopup();
-        this.loadAndShowNotification();
+        try {
+            this.createWidget();
+            this.createEmergencyPopup();
+            this.loadAndShowNotification();
+        } catch(e) {
+            console.error('BloodBot init error:', e);
+        }
     }
 
     createWidget() {
@@ -31,10 +38,10 @@ class BloodBot {
         `;
         document.body.appendChild(widget);
 
-        document.getElementById('botTrigger').addEventListener('click', () => this.toggle());
-        document.getElementById('botClose').addEventListener('click', () => this.close());
-        document.getElementById('botSendBtn').addEventListener('click', () => this.sendMessage());
-        document.getElementById('botInput').addEventListener('keypress', (e) => {
+        document.getElementById('botTrigger')?.addEventListener('click', () => this.toggle());
+        document.getElementById('botClose')?.addEventListener('click', () => this.close());
+        document.getElementById('botSendBtn')?.addEventListener('click', () => this.sendMessage());
+        document.getElementById('botInput')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.sendMessage();
         });
 
@@ -44,27 +51,29 @@ class BloodBot {
 
     toggle() {
         this.isOpen = !this.isOpen;
-        document.getElementById('botPopup').classList.toggle('show', this.isOpen);
+        const popup = document.getElementById('botPopup');
+        if (popup) popup.classList.toggle('show', this.isOpen);
     }
 
     close() {
         this.isOpen = false;
-        document.getElementById('botPopup').classList.remove('show');
+        const popup = document.getElementById('botPopup');
+        if (popup) popup.classList.remove('show');
     }
 
     renderMessages() {
         const body = document.getElementById('botBody');
         if (!body) return;
-        body.innerHTML = this.messages.map(msg => `
-            <div class="bot-message ${msg.sender}">${msg.text}</div>
-        `).join('');
+        body.innerHTML = this.messages.map(msg =>
+            `<div class="bot-message ${msg.sender}">${msg.text}</div>`
+        ).join('');
         body.scrollTop = body.scrollHeight;
     }
 
     sendMessage() {
         const input = document.getElementById('botInput');
+        if (!input) return;
         const text = input.value.trim();
-        if (!text) return;
         if (!text) return;
 
         this.messages.push({ sender: 'user', text });
@@ -81,7 +90,7 @@ class BloodBot {
     getBotResponse(text) {
         const lower = text.toLowerCase();
         if (lower.includes('donor') || lower.includes('help') || lower.includes('find') || lower.includes('needed')) {
-            return 'I\'m checking available donors near you. Please check your dashboard for matches! 🩸';
+            return "I'm checking available donors near you. Please check your dashboard for matches! 🩸";
         } else if (lower.includes('request') || lower.includes('submit')) {
             return 'You can fill the request form from the dashboard. ✅';
         } else if (lower.includes('blood group') || lower.includes('bg') || lower.includes('type')) {
@@ -100,7 +109,7 @@ class BloodBot {
         popup.innerHTML = `
             <div class="emergency-card">
                 <div class="emergency-icon">🚨</div>
-                <h2>URGENT: Blood Emergency!</h2>
+                <h2>Urgent: Blood Emergency!</h2>
                 <p>There is an urgent blood requirement in your area. Please donate if you are eligible.</p>
                 <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
                     <button class="btn btn-primary" onclick="closeEmergency()">Donate Now</button>
@@ -110,23 +119,22 @@ class BloodBot {
         `;
         document.body.appendChild(popup);
 
+        // Show emergency popup after delay
         setTimeout(() => {
             if (Math.random() > 0.5) {
-                this.showEmergency();
+                const el = document.getElementById('emergencyPopup');
+                if (el) el.classList.add('show');
             }
-        }, 10000);
-    }
-
-    showEmergency() {
-        const el = document.getElementById('emergencyPopup');
-        if (el) el.classList.add('show');
+        }, 12000);
     }
 
     loadAndShowNotification() {
-        const notifications = JSON.parse(localStorage.getItem('bloodneed_notifications') || '[]');
-        if (notifications.length > 0) {
+        // Check for saved notifications
+        const notif = safeGetItem('bloodneed_notif');
+        if (notif) {
             setTimeout(() => {
-                this.showEmergency();
+                const el = document.getElementById('emergencyPopup');
+                if (el) el.classList.add('show');
             }, 5000);
         }
     }

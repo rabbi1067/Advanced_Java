@@ -198,22 +198,13 @@
                 dm.renderStats('statsGrid');
                 dm.renderRequests('requestsList');
             }
+            if (typeof initLanguage === 'function') initLanguage();
         });
 
         function showEmergency() {
             const popup = document.createElement('div');
             popup.className = 'emergency-popup show';
-            popup.innerHTML = `
-                <div class="emergency-card">
-                    <div class="emergency-icon">🚨</div>
-                    <h2>Urgent: Blood Emergency!</h2>
-                    <p>There is an urgent blood requirement in your area.</p>
-                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="this.closest('.emergency-popup').remove()">Donate Now</button>
-                        <button class="btn btn-secondary" onclick="this.closest('.emergency-popup').remove()">Remind Later</button>
-                    </div>
-                </div>
-            `;
+            popup.innerHTML = '<div class="emergency-card"><div class="emergency-icon">🚨</div><h2>Urgent: Blood Emergency!</h2><p>There is an urgent blood requirement in your area.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;"><button class="btn btn-primary" onclick="this.closest(\'.emergency-popup\').remove()">Donate Now</button><button class="btn btn-secondary" onclick="this.closest(\'.emergency-popup\').remove()">Remind Later</button></div></div>';
             document.body.appendChild(popup);
         }
     </script>

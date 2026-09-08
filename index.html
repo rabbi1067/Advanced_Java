@@ -368,45 +368,26 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof BloodBot !== 'undefined') new BloodBot();
-            if (typeof ThemeManager !== 'undefined') new ThemeManager();
-            if (typeof LanguageManager !== 'undefined') new LanguageManager();
-            
-            // Set profile data from localStorage
-            const user = JSON.parse(localStorage.getItem('bloodneed_user') || 'null');
-            if (user) {
-                const avatar = document.getElementById('homeProfileAvatar');
-                const name = document.getElementById('homeProfileName');
-                const email = document.getElementById('homeProfileEmail');
-                const role = document.getElementById('homeProfileRole');
-                if (avatar) avatar.textContent = user.name.charAt(0).toUpperCase();
-                if (name) name.textContent = user.name;
-                if (email) email.textContent = user.email;
-                if (role) {
-                    role.textContent = (user.role || 'user').toUpperCase();
-                    role.className = 'profile-role-badge ' + (user.role || 'user');
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof initLanguage === 'function') initLanguage();
+                if (typeof BloodBot !== 'undefined') new BloodBot();
+                if (typeof ThemeManager !== 'undefined') new ThemeManager();
+                if (typeof LanguageManager !== 'undefined') new LanguageManager();
+                if (typeof DashboardManager !== 'undefined') { const dm = new DashboardManager(); dm.renderStats('homeStats'); dm.renderRequests('homeRequests'); }
+                try { var _user = JSON.parse(localStorage.getItem('bloodneed_user') || 'null'); } catch(e) { var _user = null; }
+                if (_user) {
+                    const avatar = document.getElementById('homeProfileAvatar');
+                    const name = document.getElementById('homeProfileName');
+                    const email = document.getElementById('homeProfileEmail');
+                    const role = document.getElementById('homeProfileRole');
+                    if (avatar) avatar.textContent = _user.name.charAt(0).toUpperCase();
+                    if (name) name.textContent = _user.name;
+                    if (email) email.textContent = _user.email;
+                    if (role) { role.textContent = (_user.role||'user').toUpperCase(); role.className = 'profile-role-badge '+(_user.role||'user'); }
                 }
-            }
-        });
-
-        function showEmergency() {
-            const popup = document.createElement('div');
-            popup.className = 'emergency-popup show';
-            popup.innerHTML = `
-                <div class="emergency-card">
-                    <div class="emergency-icon">🚨</div>
-                    <h2>Urgent: Blood Emergency!</h2>
-                    <p>There is an urgent blood requirement in your area.</p>
-                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="this.closest('.emergency-popup').remove()">Donate Now</button>
-                        <button class="btn btn-secondary" onclick="this.closest('.emergency-popup').remove()">Remind Later</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(popup);
-        }
-    </script>
-</body>
+            });
+            function showEmergency() { const popup = document.createElement('div'); popup.className = 'emergency-popup show'; popup.innerHTML = '<div class="emergency-card"><div class="emergency-icon">🚨</div><h2>Urgent: Blood Emergency!</h2><p>There is an urgent blood requirement in your area.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;"><button class="btn btn-primary" onclick="this.closest(\'.emergency-popup\').remove()">Donate Now</button><button class="btn btn-secondary" onclick="this.closest(\'.emergency-popup\').remove()">Remind Later</button></div></div>'; document.body.appendChild(popup); }
+        </script>
+    </body>
 </html>

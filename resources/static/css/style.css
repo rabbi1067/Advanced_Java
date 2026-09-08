@@ -396,8 +396,16 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+.theme-toggle .toggle-circle::after {
+    content: '☀️';
+}
+
 [data-theme="dark"] .theme-toggle .toggle-circle {
     left: 29px;
+}
+
+[data-theme="dark"] .theme-toggle .toggle-circle::after {
+    content: '🌙';
 }
 
 /* Language Toggle */
