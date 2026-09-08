@@ -2,6 +2,7 @@ package com.bloodneed.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.PrePersist;
 import java.time.LocalDateTime;
 
 @Document(collection = "donors")
@@ -28,7 +29,12 @@ public class Donor {
         this.phone = phone;
         this.available = true;
         this.totalDonations = 0;
+    }
+
+    @PrePersist
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        if (this.lastDonation == null) this.lastDonation = LocalDateTime.now();
     }
 
     public String getId() { return id; }

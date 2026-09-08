@@ -2,6 +2,7 @@ package com.bloodneed.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.PrePersist;
 import java.time.LocalDateTime;
 
 @Document(collection = "blood_requests")
@@ -27,8 +28,12 @@ public class BloodRequest {
         this.phone = phone;
         this.urgency = urgency;
         this.description = description;
-        this.createdAt = LocalDateTime.now();
         this.status = "pending";
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 
     public String getId() { return id; }
